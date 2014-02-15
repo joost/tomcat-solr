@@ -1,0 +1,34 @@
+{
+  "name": "tomcat-solr",
+  "description": "Installs tomcat 7 and deploys Solr 4.0.0 on it",
+  "long_description": "",
+  "maintainer": "Matheus Ashton",
+  "maintainer_email": "matheus@tapronto.com.br",
+  "license": "BSD",
+  "platforms": {
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "apt": ">= 0.0.0",
+    "java": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "solr": "installs tomcat 7 and deploys solr on it"
+  },
+  "version": "0.1"
+}
