@@ -7,9 +7,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ case node[:platform]
 when "debian", "ubuntu"
 
     tomcat_group = "tomcat7"
+    solr_version = '4.6.1'
 
     package "tomcat7" do
         action :install
@@ -56,7 +57,7 @@ when "debian", "ubuntu"
         source "solr.xml.erb"
         owner "root"
         group "root"
-        mode "0664" 
+        mode "0664"
     end
 
     template "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf/solrconfig.xml" do
@@ -82,14 +83,14 @@ when "debian", "ubuntu"
     end
 
     # download a binary release...
-    remote_file "/tmp/apache-solr-4.0.0.tgz" do
-      source "http://archive.apache.org/dist/lucene/solr/4.0.0/apache-solr-4.0.0.tgz"
+    remote_file "/tmp/apache-solr-#{solr_version}.tgz" do
+      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/apache-solr-#{solr_version}.tgz"
       action :create_if_missing
     end
 
     # ...and extract solr.war for tomcat
     execute "extract" do
-      command "tar xf apache-solr-4.0.0.tgz && cp apache-solr-4.0.0/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
+      command "tar xf apache-solr-#{solr_version}.tgz && cp apache-solr-#{solr_version}/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
       creates "/var/lib/tomcat7/webapps/solr.war"
       not_if { ::File.exists?("/var/lib/tomcat7/webapps/solr.war") }
       cwd "/tmp"
