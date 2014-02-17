@@ -22,7 +22,7 @@ case node[:platform]
 when "debian", "ubuntu"
 
     tomcat_group = "tomcat7"
-    solr_version = '4.6.1'
+    solr_version = node[:solr][:version]
 
     package "tomcat7" do
         action :install
@@ -95,4 +95,9 @@ when "debian", "ubuntu"
       not_if { ::File.exists?("/var/lib/tomcat7/webapps/solr.war") }
       cwd "/tmp"
     end
+
+    # See: https://wiki.apache.org/solr/SolrLogging#Using_the_example_logging_setup_in_containers_other_than_Jetty
+    # sudo cp /tmp/solr-4.6.1/example/lib/ext/* /usr/share/tomcat7/lib/
+    # sudo cp /tmp/solr-4.6.1/example/resources/log4j.properties /usr/share/tomcat7/lib/
+
 end
