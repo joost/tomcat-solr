@@ -83,7 +83,7 @@ when "debian", "ubuntu"
     end
 
     solr_filename = "solr-#{solr_version}"
-    solr_filename = "apache-#{filename}" if solr_version.to_f < 4.1 # Older versions have 'apache-' in the name
+    solr_filename = "apache-#{solr_filename}" if solr_version.to_f < 4.1 # Older versions have 'apache-' in the name
 
     # download a binary release...
     remote_file "/tmp/#{solr_filename}.tgz" do
