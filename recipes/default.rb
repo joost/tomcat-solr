@@ -83,14 +83,14 @@ when "debian", "ubuntu"
     end
 
     # download a binary release...
-    remote_file "/tmp/apache-solr-#{solr_version}.tgz" do
-      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/apache-solr-#{solr_version}.tgz"
+    remote_file "/tmp/solr-#{solr_version}.tgz" do
+      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/solr-#{solr_version}.tgz"
       action :create_if_missing
     end
 
     # ...and extract solr.war for tomcat
     execute "extract" do
-      command "tar xf apache-solr-#{solr_version}.tgz && cp apache-solr-#{solr_version}/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
+      command "tar xf solr-#{solr_version}.tgz && cp solr-#{solr_version}/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
       creates "/var/lib/tomcat7/webapps/solr.war"
       not_if { ::File.exists?("/var/lib/tomcat7/webapps/solr.war") }
       cwd "/tmp"
