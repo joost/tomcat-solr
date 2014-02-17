@@ -30,5 +30,5 @@
   "recipes": {
     "solr": "installs tomcat 7 and deploys solr on it"
   },
-  "version": "0.2"
+  "version": "0.3"
 }
