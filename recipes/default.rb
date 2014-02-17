@@ -82,17 +82,18 @@ when "debian", "ubuntu"
       notifies :restart, resources(:service => "tomcat7")
     end
 
+    solr_filename = "solr-#{solr_version}"
+    solr_filename = "apache-#{filename}" if solr_version.to_f < 4.1 # Older versions have 'apache-' in the name
+
     # download a binary release...
-    remote_file "/tmp/solr-#{solr_version}.tgz" do
-      filename = "solr-#{solr_version}.tgz"
-      filename = "apache-#{filename}" if solr_version.to_f < 4.1 # Older versions have 'apache-' in the name
-      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/#{filename}"
+    remote_file "/tmp/#{solr_filename}.tgz" do
+      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/#{solr_filename}.tgz"
       action :create_if_missing
     end
 
     # ...and extract solr.war for tomcat
     execute "extract" do
-      command "tar xf solr-#{solr_version}.tgz && cp solr-#{solr_version}/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
+      command "tar xf #{solr_filename}.tgz && cp #{solr_filename}/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
       creates "/var/lib/tomcat7/webapps/solr.war"
       not_if { ::File.exists?("/var/lib/tomcat7/webapps/solr.war") }
       cwd "/tmp"
