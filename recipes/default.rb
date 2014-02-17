@@ -84,7 +84,9 @@ when "debian", "ubuntu"
 
     # download a binary release...
     remote_file "/tmp/solr-#{solr_version}.tgz" do
-      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/solr-#{solr_version}.tgz"
+      filename = "solr-#{solr_version}.tgz"
+      filename = "apache-#{filename}" if solr_version.to_f < 4.1 ? # Older versions have 'apache-' in the name
+      source "http://archive.apache.org/dist/lucene/solr/#{solr_version}/#{filename}"
       action :create_if_missing
     end
 
