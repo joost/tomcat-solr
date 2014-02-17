@@ -1,9 +1,9 @@
 {
   "name": "tomcat-solr",
-  "description": "Installs tomcat 7 and deploys Solr 4.0.0 on it",
+  "description": "Installs tomcat 7 and deploys Solr 4.6.1 on it",
   "long_description": "",
-  "maintainer": "Matheus Ashton",
-  "maintainer_email": "matheus@tapronto.com.br",
+  "maintainer": "Joost Hietbrink",
+  "maintainer_email": "joost@joopp.com",
   "license": "BSD",
   "platforms": {
     "debian": ">= 0.0.0",
@@ -30,5 +30,5 @@
   "recipes": {
     "solr": "installs tomcat 7 and deploys solr on it"
   },
-  "version": "0.1"
+  "version": "0.2"
 }
