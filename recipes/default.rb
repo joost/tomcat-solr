@@ -29,49 +29,57 @@ when "debian", "ubuntu"
     end
 
     # configuring tomcat
-    template "/var/lib/tomcat7/conf/Catalina/localhost/solr.xml" do
-        source "tomcat_solr.xml.erb"
-        owner "root"
-        group tomcat_group
-        mode "0664"
-    end
+    # template "/var/lib/tomcat7/conf/Catalina/localhost/solr.xml" do
+    #     source "tomcat_solr.xml.erb"
+    #     owner "root"
+    #     group tomcat_group
+    #     mode "0664"
+    # end
 
     # creating solr home and solr core
-    directory "#{node[:solr][:home]}/#{node[:solr][:core_name]}" do
+    # directory "#{node[:solr][:home]}/#{node[:solr][:core_name]}" do
+    #     owner "root"
+    #     group tomcat_group
+    #     mode "0777"
+    #     action :create
+    #     recursive true
+    # end
+
+    # directory "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf" do
+    #     owner "root"
+    #     group tomcat_group
+    #     mode "0777"
+    #     action :create
+    # end
+
+    # # configuring solr
+    # template "#{node[:solr][:home]}/solr.xml" do
+    #     source "solr.xml.erb"
+    #     owner "root"
+    #     group "root"
+    #     mode "0664"
+    # end
+
+    # template "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf/solrconfig.xml" do
+    #     source "solrconfig.xml.erb"
+    #     owner "root"
+    #     group "root"
+    #     mode "0644"
+    # end
+
+    # template "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf/schema.xml" do
+    #     source "schema.xml.erb"
+    #     owner "root"
+    #     group "root"
+    #     mode "0644"
+    # end
+
+    directory "#{node[:solr][:home]}/example/solr" do
         owner "root"
         group tomcat_group
         mode "0777"
         action :create
         recursive true
-    end
-
-    directory "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf" do
-        owner "root"
-        group tomcat_group
-        mode "0777"
-        action :create
-    end
-
-    # configuring solr
-    template "#{node[:solr][:home]}/solr.xml" do
-        source "solr.xml.erb"
-        owner "root"
-        group "root"
-        mode "0664"
-    end
-
-    template "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf/solrconfig.xml" do
-        source "solrconfig.xml.erb"
-        owner "root"
-        group "root"
-        mode "0644"
-    end
-
-    template "#{node[:solr][:home]}/#{node[:solr][:core_name]}/conf/schema.xml" do
-        source "schema.xml.erb"
-        owner "root"
-        group "root"
-        mode "0644"
     end
 
     template "/etc/tomcat7/server.xml" do
@@ -93,9 +101,10 @@ when "debian", "ubuntu"
 
     # ...and extract solr.war for tomcat
     execute "extract" do
-      command "tar xf #{solr_filename}.tgz && cp #{solr_filename}/example/webapps/solr.war /var/lib/tomcat7/webapps/solr.war"
-      creates "/var/lib/tomcat7/webapps/solr.war"
-      not_if { ::File.exists?("/var/lib/tomcat7/webapps/solr.war") }
+      # See: https://wiki.apache.org/solr/SolrTomcat
+      command "tar xf #{solr_filename}.tgz && cp #{solr_filename}/example/webapps/solr.war #{node[:solr][:home]}/example/solr/solr.war"
+      creates "#{node[:solr][:home]}/example/solr/solr.war"
+      not_if { ::File.exists?("#{node[:solr][:home]}/example/solr/solr.war") }
       cwd "/tmp"
     end
 
