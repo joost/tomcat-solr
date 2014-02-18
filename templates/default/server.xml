@@ -27,18 +27,16 @@
                resourceName="UserDatabase"/>
       </Realm>
 <!--
-We disable the appBase to allow multiple solr deployments.
+We do not set appBase and autoDeploy to allow multiple solr deployments.
 See: http://tomcat.apache.org/tomcat-7.0-doc/config/context.html > Introduction > Naming
  -->
 
-<!--
-      <Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
+      <Host name="localhost" unpackWARs="true" >
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
                prefix="localhost_access_log." suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
       </Host>
- -->
+ 
     </Engine>
   </Service>
 </Server>
